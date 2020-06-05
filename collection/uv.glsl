@@ -4,18 +4,7 @@
 #ifndef UV
 #define UV
 
-//////////////////////////////
-// UV
-//////////////////////////////
-vec2 uv_translate(vec2 uv, vec2 diff)
-{
-    return uv + diff;
-}
 
-vec2 uv_scale(vec2 uv, vec2 scale)
-{
-    return uv * scale;
-}
 
 vec2 uv_rotate(vec2 uv, vec2 origin, float angle)
 {
@@ -54,27 +43,6 @@ vec2 uv_tilling_tile_offset(vec2 uv, out vec2 tile_id, float offset, float offse
     tile_id = floor(uv);
 
     return fract(uv);
-}
-
-
-vec2 uv_tilling_01(vec2 uv, out vec2 tile_id, vec2 tiles, float offset_step, float offset)
-{
-    uv *= tiles;
-    tile_id = floor(uv);
-    uv.x -= offset * floor(tile_id.y * (1.0 / offset_step));
-    tile_id = floor(uv);
-    
-    return fract(uv);
-}
-
-vec2 uv_tilling_0X(vec2 uv, out vec2 tile_id, vec2 tiles, float offset_step, float offset)
-{
-    uv *= tiles;
-    tile_id = floor(uv);
-    uv.x -= offset * floor(tile_id.y * (1.0 / offset_step));
-    tile_id = floor(uv);
-    
-    return fract(uv) * tiles.yx;
 }
 
 vec2 uv_distort_twirl(vec2 uv, float distortion, vec2 offset, float strength)
