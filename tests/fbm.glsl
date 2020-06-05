@@ -1,10 +1,5 @@
 #include "../collection/uv.glsl"
-#include "../collection/noise.glsl"
 #include "../collection/noise.fbm.glsl"
-
-
-
-const float FBM_RESCALE = 1.0;
 
 float test_fbm_value(vec2 uv, float time)
 {

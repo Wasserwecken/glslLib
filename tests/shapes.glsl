@@ -1,7 +1,6 @@
 #include "../collection/uv.glsl"
 #include "../collection/shapes.glsl"
 
-
 vec3 test_shapes(vec2 uv, float time)
 {
     vec2 tile_id;
