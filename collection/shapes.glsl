@@ -37,15 +37,19 @@ float shape_gradient_points(vec2 uv, vec2 from, vec2 to)
     return shape_gradient_direction(uv, origin, direction);
 }
 
+float shape_circle_df(vec2 uv, vec2 origin, float radius)
+{
+    return length(uv - origin) - radius;
+}
+
 float shape_circle(vec2 uv, vec2 origin, float radius, float blur)
 {
-    float len = length(uv - origin);
-    return 1.0 - value_linear_step(len, radius, blur);
+    float df = shape_circle_df(uv, origin, radius);
+    return 1.0 - value_linear_step(df, 0.0, blur);
 }
 
 float shape_rectangle(vec2 uv, vec2 origin, vec2 size, vec2 blur)
 {
-    size *= 0.5;
     uv = abs(uv - origin);
     
     vec2 isRectangle = value_linear_step(size, uv, blur);
@@ -55,7 +59,6 @@ float shape_rectangle(vec2 uv, vec2 origin, vec2 size, vec2 blur)
 float shape_rectangle_rounded(vec2 uv, vec2 origin, vec2 size, float blur, vec4 radius)
 {
     uv -= origin;
-    size *= 0.5;
 
     radius.xy = (uv.x > 0.0) ? radius.xy : radius.zw;
     radius.x  = (uv.y > 0.0) ? radius.x  : radius.y;
