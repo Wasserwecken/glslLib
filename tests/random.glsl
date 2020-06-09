@@ -10,8 +10,8 @@ vec3 test_random(vec2 uv, float time)
 
     vec3 point = vec3(tile_uv, time * 0.02);
     vec3 seed = vec3(floor(1.0 + iTime * 0.));
-    float minScale = 0.001;
-    float maxScale = 100.0;
+    float minScale = 0.0001;
+    float maxScale = 1000.0;
 
     if (row == 0 && column == 0)
         return vec3(random(point.x * minScale));

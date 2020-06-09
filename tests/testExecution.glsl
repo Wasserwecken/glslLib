@@ -32,12 +32,12 @@ void main() {
     vec3 result;
 
 
-    //result = test_random(uv, time);
+    result = test_random(uv, time);
     //result = test_noise(uv, time);
     //result = test_fbm(uv, time);
     //result = test_easing(uv, time);
     //result = test_shapes(uv, time);
-    result = test_uv(uv, time);
+    //result = test_uv(uv, time);
 
 
 	gl_FragColor = vec4(result, 1.0);
