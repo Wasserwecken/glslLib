@@ -6,6 +6,14 @@
 
 
 
+vec2 uv_create(vec2 resolution, vec2 pixel, float adjust)
+{
+    vec2 uv = gl_FragCoord.xy / iResolution.y;
+    float offset = (1.0 - (iResolution.x / iResolution.y)) * 0.5 * adjust;
+
+    return uv + vec2(offset, 0.0);
+}
+
 vec2 uv_rotate(vec2 uv, vec2 origin, float angle)
 {
     angle *= DEGTORAD;

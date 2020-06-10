@@ -1,15 +1,18 @@
-#include "/collection/constants.glsl"
-#include "/collection/helper.glsl"
-#include "/collection/easing.glsl"
-#include "/collection/shapes.glsl"
-#include "/collection/noise.glsl"
-#include "/collection/uv.glsl"
-#include "/collection/color.glsl"
+#include "/lib/constants.glsl"
+#include "/lib/helper.glsl"
+#include "/lib/easing.glsl"
+#include "/lib/shapes.glsl"
+#include "/lib/noise.glsl"
+#include "/lib/uv.glsl"
+#include "/lib/color.glsl"
 
 
 vec2 provide_uv()
 {
-    return gl_FragCoord.xy / iResolution.y;
+    vec2 uv = gl_FragCoord.xy / iResolution.y;
+    float offset = (1.0 - (iResolution.x / iResolution.y)) * 0.5;
+
+    return uv + vec2(offset, 0.0);
 }
 
 vec2 provide_uv_interactive()
@@ -27,7 +30,7 @@ vec2 provide_uv_interactive()
 
 void main() {
     vec2 uv = provide_uv();
-    vec3 result;
+    vec3 result = vec3(1.0, 0.0, 1.0);
 
     //...
 

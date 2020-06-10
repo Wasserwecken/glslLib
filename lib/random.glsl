@@ -83,5 +83,27 @@ vec3 random_vec3(vec3 p)
     return fract((p.xxy + p.yxx)*p.zyx);
 }
 
+vec3 random_in_sphere(vec3 p)
+{
+    return random_vec3(p) * 2.0 - 1.0;
+}
+
+vec3 random_on_sphere(vec3 p)
+{
+    return normalize(random_in_sphere(p));
+}
+
+vec3 random_in_hemisphere(vec3 p, vec3 normal)
+{
+    vec3 vector = random_in_sphere(p);
+
+    return vector * sign(dot(vector, normal));
+}
+
+vec3 random_on_hemisphere(vec3 p, vec3 normal)
+{
+    return normalize(random_in_hemisphere(p, normal));
+}
+
 
 #endif
