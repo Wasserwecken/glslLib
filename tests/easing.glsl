@@ -13,9 +13,9 @@ vec3 test_easing(vec2 uv, float time)
 
     if (row == 0 && column == 0)
         result = vec3(
-            easing_smooth(value, 1),
-            easing_smooth(value, 3),
-            easing_smooth(value, 5)
+            easing_expo_in(value),
+            easing_expo_out(value),
+            easing_expo_inout(value)
         );
 
     if (row == 0 && column == 1)
@@ -27,9 +27,9 @@ vec3 test_easing(vec2 uv, float time)
 
     if (row == 0 && column == 2)
         result = vec3(
-            easing_circular_in(value),
-            easing_circular_out(value),
-            easing_circular_inout(value)
+            easing_smooth(value, 1),
+            easing_smooth(value, 3),
+            easing_smooth(value, 5)
         );
 
     if (row == 1 && column == 0)
@@ -41,9 +41,9 @@ vec3 test_easing(vec2 uv, float time)
 
     if (row == 1 && column == 1)
         result = vec3(
-            easing_expo_in(value),
-            easing_expo_out(value),
-            easing_expo_inout(value)
+            easing_circular_in(value),
+            easing_circular_out(value),
+            easing_circular_inout(value)
         );
 
 
