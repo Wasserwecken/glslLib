@@ -1,4 +1,4 @@
-#include "../collection/uv.glsl"
+#include "../lib/uv.glsl"
 
 vec3 test_uv(vec2 uv, float time)
 {

@@ -1,5 +1,5 @@
-#include "../collection/uv.glsl"
-#include "../collection/noise.fbm.glsl"
+#include "../lib/uv.glsl"
+#include "../lib/noise.fbm.glsl"
 
 float test_fbm_value(vec2 uv, float time)
 {

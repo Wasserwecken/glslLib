@@ -1,5 +1,5 @@
-#include "../collection/uv.glsl"
-#include "../collection/noise.glsl"
+#include "../lib/uv.glsl"
+#include "../lib/noise.glsl"
 
 
 #ifndef NOISE_TESTS

@@ -1,5 +1,5 @@
-#include "../collection/uv.glsl"
-#include "../collection/easing.glsl"
+#include "../lib/uv.glsl"
+#include "../lib/easing.glsl"
 
 vec3 test_easing(vec2 uv, float time)
 {

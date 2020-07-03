@@ -1,9 +1,9 @@
-#include "./random.glsl"
-#include "./noise.glsl"
-#include "./fbm.glsl"
-#include "./shapes.glsl"
-#include "./easing.glsl"
-#include "./uv.glsl"
+#include "./tests/random.glsl"
+#include "./tests/noise.glsl"
+#include "./tests/fbm.glsl"
+#include "./tests/shapes.glsl"
+#include "./tests/easing.glsl"
+#include "./tests/uv.glsl"
 
 
 vec2 provide_uv()
@@ -32,12 +32,12 @@ void main() {
     vec3 result;
 
 
-    result = test_random(uv, time);
+    //result = test_random(uv, time);
     //result = test_noise(uv, time);
     //result = test_fbm(uv, time);
     //result = test_easing(uv, time);
     //result = test_shapes(uv, time);
-    //result = test_uv(uv, time);
+    result = test_uv(uv, time);
 
 
 	gl_FragColor = vec4(result, 1.0);

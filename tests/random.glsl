@@ -1,5 +1,5 @@
-#include "../collection/uv.glsl"
-#include "../collection/random.glsl"
+#include "../lib/uv.glsl"
+#include "../lib/random.glsl"
 
 vec3 test_random(vec2 uv, float time)
 {
