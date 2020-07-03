@@ -10,7 +10,7 @@ vec3 test_uv(vec2 uv, float time)
     vec2 result;
 
     if (row == 0 && column == 0)
-        result = uv_rotate(tile_uv, vec2(0.5), 90.0);
+        result = uv_rotate(tile_uv, vec2(0.5), 33.33);
 
     if (row == 0 && column == 1)
         result = uv_to_polar(tile_uv, vec2(0.5));

@@ -1,5 +1,5 @@
 #include "constants.glsl"
-#include "shapes.glsl"
+#include "gradients.glsl"
 
 #ifndef UV
 #define UV
@@ -31,7 +31,7 @@ vec2 uv_rotate(vec2 uv, vec2 origin, float angle)
 vec2 uv_to_polar(vec2 uv, vec2 origin)
 {
     float len = length(uv - origin);
-    float angle = shape_spiral(uv, origin, 0.0);
+    float angle = gradient_spiral(uv, origin, 0.0);
 
     return vec2(angle, len);
 }

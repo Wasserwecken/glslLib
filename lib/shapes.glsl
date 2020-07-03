@@ -1,82 +1,46 @@
 #include "constants.glsl"
 #include "helper.glsl"
+#include "distanceFields.glsl"
 
 #ifndef SHAPES
 #define SHAPES
 
 
-//////////////////////////////
-// Shapes
-//////////////////////////////
-float shape_spiral(vec2 uv, vec2 origin, float start)
+float shape_line(vec2 uv, vec2 p1, vec2 p2, float blur)
 {
-    uv -= origin;
-
-    float spiral = (atan(uv.x, uv.y) + PI) / PI2;
-    spiral = fract(spiral + 0.5 - start);
-
-    return spiral;  
-}
-
-float shape_gradient_direction(vec2 uv, vec2 origin, vec2 direction)
-{
-    direction = -direction;
-    uv = origin - uv;
-
-    float stretch = dot(direction, direction);
-    float gradient = dot(uv, direction);
-
-    return gradient / stretch + 0.5;
-}
-
-float shape_gradient_points(vec2 uv, vec2 from, vec2 to)
-{
-    vec2 origin = (from + to) * 0.5;
-    vec2 direction = (to - origin) * 2.0;
-
-    return shape_gradient_direction(uv, origin, direction);
-}
-
-float shape_circle_df(vec2 uv, vec2 origin, float radius)
-{
-    return length(uv - origin) - radius;
+    float df = df_line(uv, p1, p2);
+    return value_linear_step(0.0, df, blur);
 }
 
 float shape_circle(vec2 uv, vec2 origin, float radius, float blur)
 {
-    float df = shape_circle_df(uv, origin, radius);
-    return 1.0 - value_linear_step(df, 0.0, blur);
+    float df = df_circle(uv, origin, radius);
+    return value_linear_step(0.0, df, blur);
 }
 
-float shape_rectangle(vec2 uv, vec2 origin, vec2 size, vec2 blur)
+float shape_box(vec2 uv, vec2 origin, vec2 size, float blur)
+{
+    float df = df_box(uv, origin, size);
+    return value_linear_step(df, 0.0, blur);
+}
+
+float shape_box(vec2 uv, vec2 origin, vec2 size, vec2 blur)
 {
     uv = abs(uv - origin);
-    
     vec2 isRectangle = value_linear_step(size, uv, blur);
     return min(isRectangle.x, isRectangle.y);
 }
 
-float shape_rectangle_rounded(vec2 uv, vec2 origin, vec2 size, float blur, vec4 radius)
+float shape_box_rounded(vec2 uv, vec2 origin, vec2 size, float blur, vec4 radius)
 {
-    uv -= origin;
-
-    radius.xy = (uv.x > 0.0) ? radius.xy : radius.zw;
-    radius.x  = (uv.y > 0.0) ? radius.x  : radius.y;
-    vec2 q = abs(uv)-size+radius.x;
-    float df = min(max(q.x,q.y),0.0) + length(max(q,0.0)) - radius.x;
+    float df = df_box_rounded(uv, origin, size, radius);
     return value_linear_step(0.0, df, blur);
 }
 
-float shape_ngon(vec2 uv, vec2 origin, float radius, float edges, float bend, float blur)
+float shape_ngon(vec2 uv, vec2 origin, float radius, float edges, float blur)
 {
-    float dist = length(uv - origin);
-    float spiral = shape_spiral(uv, origin, 0.0); 
-
-    bend = (bend + 1.0) * 0.5 * PI2;
-    spiral = fract(spiral * edges) * 2.0 - 1.0;
-    dist *= cos(spiral * (bend / edges));
-
-    return 1.0 - value_linear_step(dist, radius, blur);
+    float df = df_ngon(uv, origin, radius, edges);
+    return value_linear_step(0.0, df, blur);
 }
 
 #endif
