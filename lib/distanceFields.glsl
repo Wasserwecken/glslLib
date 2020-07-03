@@ -21,7 +21,7 @@ float df_line(vec2 point, vec2 start, vec2 end)
 float df_box(vec2 point, vec2 origin, vec2 size)
 {
     vec2 diff = abs(point - origin) - size;
-    return min(diff.x, diff.y);
+    return max(diff.x, diff.y);
 }
 
 float df_box_rounded(vec2 point, vec2 origin, vec2 size, vec4 radius)

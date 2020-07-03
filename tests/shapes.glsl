@@ -19,7 +19,7 @@ vec3 test_shapes(vec2 uv, float time)
         result = shape_circle(tile_uv, origin, size, blur);
     
     if (row == 0 && column == 1)
-        result = shape_line(tile_uv, vec2(0.2), vec2(0.8), blur);
+        result = shape_box(tile_uv, origin, vec2(size), blur);
     
     if (row == 1 && column == 0)
         result = shape_box_rounded(tile_uv, origin, vec2(size), blur, edge_radius);

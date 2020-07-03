@@ -21,7 +21,7 @@ float shape_circle(vec2 uv, vec2 origin, float radius, float blur)
 float shape_box(vec2 uv, vec2 origin, vec2 size, float blur)
 {
     float df = df_box(uv, origin, size);
-    return value_linear_step(df, 0.0, blur);
+    return value_linear_step(0.0, df, blur);
 }
 
 float shape_box(vec2 uv, vec2 origin, vec2 size, vec2 blur)

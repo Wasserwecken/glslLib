@@ -4,6 +4,7 @@
 #include "./tests/shapes.glsl"
 #include "./tests/easing.glsl"
 #include "./tests/uv.glsl"
+#include "./tests/distanceFields.glsl"
 
 
 vec2 provide_uv()
@@ -37,6 +38,7 @@ void main() {
     //result = test_fbm(uv, time);
     //result = test_easing(uv, time);
     result = test_shapes(uv, time);
+    result = test_distanceFields(uv, time);
     //result = test_uv(uv, time);
 
 
