@@ -7,48 +7,41 @@
 #include "./lib/uv.glsl"
 
 
-vec2 provide_uv()
+float g(float x, float y)
 {
-    vec2 uv = gl_FragCoord.xy / iResolution.y;
+    float z = 0.0;
 
-    return uv;
-}
+    z = PI * x / y;
+    z = 1.0 + cos(z);
+    z = y * z;
 
-vec2 provide_uv_interactive()
-{
-    vec2 uv = gl_FragCoord.xy / iResolution.y;
-    uv = uv * 2.0 - 1.0;
-    
-    vec2 mouse = iMouse.xy / iResolution.y;
-    uv *= mouse.y;
-
-    return uv;
+    return z;
 }
 
 
-float noise_complex(vec2 point, vec2 seed)
+float h(float x, float y)
 {
-    float result = 1.0;
-    for(int i = 0; i < 3; i++)
-    {
-        float n = noise_perlin(point, seed++);
-        n = noise_vallies(n);
-        result = min(result, n);
-    }
+    return 0.0;
+}
 
-    return easing_power_out(result, 3.0);
+
+float f(float x, float y)
+{
+    if (abs(y) > abs(x))
+        return g(x,y);
+    else
+        return h(x,y);
 }
 
 
 void main() {
-    vec2 uv = provide_uv_interactive();
-    float time = iTime;
-    vec3 result;
+    vec2 uv = uv_provide() - vec2(0.5);
+    vec2 seed = vec2(33.33);
 
 
-    float noise = noise_complex(uv * 0.3, vec2(33.33));
-    result = vec3(noise);
-
-
+    float val = f(uv.x ,uv.y);
+    
+    val = abs(val);
+    vec3 result = vec3(val);
 	gl_FragColor = vec4(result, 1.0);
 }

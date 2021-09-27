@@ -50,8 +50,6 @@ float df_ngon(vec2 point, vec2 origin, float radius, float edges)
 
 
 
-
-
 float df_plane(vec3 point, vec3 origin, vec3 normal)
 {
     return abs(dot((point - origin), normal));

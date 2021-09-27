@@ -83,9 +83,20 @@ vec3 random_vec3(vec3 p)
     return fract((p.xxy + p.yxx)*p.zyx);
 }
 
+
+vec2 random_in_circle(vec2 p)
+{
+    return random_vec2(p) * 2.0 - 1.0;
+}
+
 vec3 random_in_sphere(vec3 p)
 {
     return random_vec3(p) * 2.0 - 1.0;
+}
+
+vec2 random_on_circle(vec2 p)
+{
+    return normalize(random_in_circle(p));
 }
 
 vec3 random_on_sphere(vec3 p)
