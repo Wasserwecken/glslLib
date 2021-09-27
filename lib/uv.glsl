@@ -1,17 +1,46 @@
 #include "constants.glsl"
 #include "gradients.glsl"
 
+
 #ifndef UV
 #define UV
 
 
-
-vec2 uv_provide()
+vec2 uv_provide_stretch(vec2 fragCoord, vec2 resolution)
 {
-    vec2 uv = gl_FragCoord.xy / iResolution.y;
-    float offset = (1.0 - (iResolution.x / iResolution.y)) * 0.5;
+    return (fragCoord / resolution);
+}
 
-    return uv + vec2(offset, 0.0);
+vec2 uv_provide_fit(vec2 fragCoord, vec2 resolution)
+{
+    if (resolution.x > resolution.y)
+    {
+        fragCoord.x += (resolution.y - resolution.x) * 0.5;
+        resolution.x = resolution.y;
+    }
+    else
+    {
+        fragCoord.y += (resolution.x - resolution.y) * 0.5;
+        resolution.y = resolution.x;
+    }
+
+    return (fragCoord / resolution);
+}
+
+vec2 uv_provide_fill(vec2 fragCoord, vec2 resolution)
+{
+    if (resolution.x > resolution.y)
+    {
+        fragCoord.y += (resolution.x - resolution.y) * 0.5;
+        resolution.y = resolution.x;
+    }
+    else
+    {
+        fragCoord.x += (resolution.y - resolution.x) * 0.5;
+        resolution.x = resolution.y;
+    }
+
+    return (fragCoord / resolution);
 }
 
 void uv_rotate(inout vec2 uv, vec2 origin, float angle)
@@ -34,12 +63,12 @@ void uv_to_polar(inout vec2 uv, vec2 origin)
     uv = vec2(angle, len);
 }
 
-void uv_tilling(inout vec2 uv, out vec2 tile_id, vec2 tiles)
+void uv_tilling(in vec2 uv, in vec2 tiles, out vec2 tile_uv, out vec2 tile_id)
 {
-    uv *= tiles;
+    tile_uv = uv * tiles;
 
-    tile_id = floor(uv);
-    uv = fract(uv);
+    tile_id = floor(tile_uv);
+    tile_uv = fract(tile_uv);
 }
 
 void uv_tilling_tile_offset(inout vec2 uv, out vec2 tile_id, float offset, float offset_step)

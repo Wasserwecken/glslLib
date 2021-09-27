@@ -35,4 +35,10 @@ float gradient_points(vec2 uv, vec2 from, vec2 to)
     return gradient_direction(uv, origin, direction);
 }
 
+//https://www.iquilezles.org/www/articles/palettes/palettes.htm
+vec3 gradient_cosine(float t, float s, vec3 a, vec3 b, vec3 c, vec3 d)
+{
+    return a + b * cos(PI2 * (c + d * s * t));
+}
+
 #endif
