@@ -1,55 +1,62 @@
 #include "../lib/uv.glsl"
-
-vec3 test_uv(vec2 uv, float time)
+void main()
 {
-    vec2 tile_id;
-    vec2 tile_uv = uv_tilling(uv, tile_id, vec2(3.0, 3.0));
-    int row = int(tile_id.y);
-    int column = int(tile_id.x);
+    vec2 uv, uvRatio;
+    uv_provide(gl_FragCoord.xy, iResolution.xy, uv, uvRatio);
+
+    vec2 tileUV, tileId;
+    uv_tile(uv, vec2(3.0, 3.0), tileUV, tileId);
+    uv_fit(tileUV, uvRatio, tileUV);
 
     vec2 result;
-
-    if (row == 0 && column == 0)
-        result = uv_rotate(tile_uv, vec2(0.5), 33.33);
-
-    if (row == 0 && column == 1)
-        result = uv_to_polar(tile_uv, vec2(0.5));
-
-
-    if (row == 1 && column == 0)
+    if (tileId.x < 1.0 && tileId.y < 1.0)
     {
-        vec2 test_id;
-        result = uv_tilling(tile_uv, test_id, vec2(5.0));
+        uv_rotate(tileUV, vec2(0.5), 33.33, result);
     }
-
-    if (row == 1 && column == 1)
+    else if (tileId.x < 2.0 && tileId.y < 1.0)
     {
-        vec2 test_id;
-        uv_tilling(tile_uv, test_id, vec2(5.0));
-        
-        result = 1.0 / (1.0 + test_id);
+        uv_to_polar(tileUV, vec2(0.5), result);
     }
-
-    if (row == 1 && column == 2)
+    else if (tileId.x < 3.0 && tileId.y < 1.0)
     {
-        vec2 test_id;
-        vec2 test_uv = uv_tilling(tile_uv, test_id, vec2(5.0));
-        test_uv = uv_tilling_tile_offset(test_uv, test_id, 0.5, 1.0);
-
-        result = test_uv;
+        uv_tile(tileUV, vec2(4.0), result, tileId);
     }
 
 
-    if (row == 2 && column == 0)
+    else if (tileId.x < 1.0 && tileId.y < 2.0)
     {
-        float distortion = sin(tile_uv.x * 20.0);
-        float strength = cos(tile_uv.y * 20.0);
-        result = uv_distort_twirl(tile_uv, distortion, vec2(0.1), strength);
+        uv_distort_spherize(tileUV, vec2(0.5), 10.0, result);
     }
-    
-    if (row == 2 && column == 1)
-        result = uv_distort_spherize(tile_uv, vec2(0.5), 100.0);
+    else if (tileId.x < 2.0 && tileId.y < 2.0)
+    {
+        float distortion = sin(tileUV.x * 20.0);
+        float strength = cos(tileUV.y * 20.0);
+        uv_distort_twirl(tileUV, distortion, vec2(0.1), strength, result);
+    }
+    else if (tileId.x < 3.0 && tileId.y < 2.0)
+    {
+        uv_tile(tileUV, vec2(4.0), result, tileId);
+        uv_tile_offset(result, tileId, 0.5, 2.0, result, tileId);
+    }
 
 
-    return vec3(result, 0.0);
+    else if (tileId.x < 1.0 && tileId.y < 3.0)
+    {
+        result = tileUV;
+    }
+    else if (tileId.x < 2.0 && tileId.y < 3.0)
+    {
+        uv_tile(uv, vec2(3.0, 3.0), tileUV, tileId);
+        uv_fill(tileUV, uvRatio, result);
+        result = fract(result);
+    }
+    else if (tileId.x < 3.0 && tileId.y < 3.0)
+    {
+        uv_tile(uv, vec2(3.0, 3.0), tileUV, tileId);
+        uv_fit(tileUV, uvRatio, result);
+        result = fract(result);
+    }
+
+
+	gl_FragColor = vec4(result, 0.0, 1.0);
 }

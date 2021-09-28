@@ -46,7 +46,7 @@ void uv_fill(in vec2 uv, in vec2 size, out vec2 uvResult)
     }
 }
 
-void uv_rotate(inout vec2 uv, vec2 origin, float angle)
+void uv_rotate(in vec2 uv, in vec2 origin, in float angle, out vec2 uvResult)
 {
     angle *= DEGTORAD;
     float s = sin(angle);
@@ -56,51 +56,48 @@ void uv_rotate(inout vec2 uv, vec2 origin, float angle)
     uv -= origin;
     uv = m * uv;
     uv += origin;
+
+    uvResult = uv;
 }
 
-void uv_to_polar(inout vec2 uv, vec2 origin)
+void uv_to_polar(in vec2 uv, in vec2 origin, out vec2 uvResult)
 {
     float len = length(uv - origin);
     float angle = gradient_spiral(uv, origin, 0.0);
 
-    uv = vec2(angle, len);
+    uvResult = vec2(angle, len);
 }
 
-void uv_tilling(in vec2 uv, in vec2 tiles, out vec2 tile_uv, out vec2 tile_id)
+void uv_tile(in vec2 uv, in vec2 tiles, out vec2 tileUV, out vec2 tileID)
 {
-    tile_uv = uv * tiles;
+    tileUV = uv * tiles;
 
-    tile_id = floor(tile_uv);
-    tile_uv = fract(tile_uv);
+    tileID = floor(tileUV);
+    tileUV = fract(tileUV);
 }
 
-void uv_fit(in vec2 uvOuter, in float ratioOuter, in vec2 uvInner, in float ratioInner)
+void uv_tile_offset(in vec2 uv, in vec2 id, in float offset, in float offsetStep, out vec2 offsetUV, out vec2 offsetID)
 {
-    
+    uv += id;
+    uv.x += offset * floor(id.y * (1.0 / offsetStep));
+
+    offsetUV = fract(uv);
+    offsetID = floor(uv);
 }
 
-void uv_tilling_tile_offset(inout vec2 uv, out vec2 tile_id, float offset, float offset_step)
-{
-    uv += tile_id;
-    uv.x += offset * floor(tile_id.y * (1.0 / offset_step));
-
-    tile_id = floor(uv);
-    uv = fract(uv);
-}
-
-void uv_distort_twirl(inout vec2 uv, float distortion, vec2 offset, float strength)
+void uv_distort_twirl(in vec2 uv, in float distortion, in vec2 offset, in float strength, out vec2 uvResult)
 {
     distortion = ((distortion * 360.0) - 180.0);
     distortion *= strength * length(offset);
-    uv_rotate(uv, uv + offset, distortion);
+    uv_rotate(uv, uv + offset, distortion, uvResult);
 }
 
-void uv_distort_spherize(inout vec2 uv, vec2 center, float strength)
+void uv_distort_spherize(inout vec2 uv, vec2 center, float strength, out vec2 uvResult)
 {
     vec2 delta = uv - center;
     float distortion = dot(delta, delta) * dot(delta, delta);
     
-    uv += delta * distortion * strength;
+    uvResult = uv + delta * distortion * strength;
 }
 
 
