@@ -10,7 +10,7 @@ void main()
     uv_provide(gl_FragCoord.xy, iResolution.xy, uv, uvRatio);
     
     vec2 tileUV, tileId;
-    uv_tilling(uv, vec2(5.0, 5.0), tileUV, tileId); 
+    uv_tile(uv, vec2(5.0, 5.0), tileUV, tileId); 
     
     uv_fill(uv, uvRatio, uv);
     vec3 picColor = texture(iChannel0, uv).xyz;

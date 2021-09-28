@@ -8,7 +8,7 @@ void main()
     uv_provide(gl_FragCoord.xy, iResolution.xy, uv, uvRatio);
 
     vec2 tileUV, tileId;
-    uv_tilling(uv, vec2(2.0, 2.0), tileUV, tileId);
+    uv_tile(uv, vec2(2.0, 2.0), tileUV, tileId);
     uv_fill(tileUV, uvRatio, tileUV);
 
     float shape;
