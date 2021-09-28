@@ -1,51 +1,49 @@
 #include "../lib/uv.glsl"
 #include "../lib/easing.glsl"
 
-vec3 test_easing(vec2 uv, float time)
+void main()
 {
-    vec2 tile_id;
-    vec2 tile_uv = uv_tilling(uv, tile_id, vec2(3.0, 3.0));
-    int row = int(tile_id.y);
-    int column = int(tile_id.x);
+    vec2 uv, uvRatio;
+    uv_provide(gl_FragCoord.xy, iResolution.xy, uv, uvRatio);
 
-    float value = tile_uv.x;
+    vec2 tileUV, tileId;
+    uv_tilling(uv, vec2(2.0, 3.0), tileUV, tileId);
+
     vec3 result;
-
-    if (row == 0 && column == 0)
+    if (tileId.x < 1.0 && tileId.y < 1.0)
         result = vec3(
-            easing_expo_in(value),
-            easing_expo_out(value),
-            easing_expo_inout(value)
+            easing_expo_in(tileUV.x),
+            easing_expo_out(tileUV.x),
+            easing_expo_inout(tileUV.x)
         );
 
-    if (row == 0 && column == 1)
+    else if (tileId.x < 2.0 && tileId.y < 1.0)
         result = vec3(
-            easing_power_in(value, 3.0),
-            easing_power_out(value, 3.0),
-            easing_power_inout(value, 3.0)
+            easing_power_in(tileUV.x, 3.0),
+            easing_power_out(tileUV.x, 3.0),
+            easing_power_inout(tileUV.x, 3.0)
         );
 
-    if (row == 0 && column == 2)
+    else if (tileId.x < 1.0 && tileId.y < 2.0)
         result = vec3(
-            easing_smooth(value, 1),
-            easing_smooth(value, 3),
-            easing_smooth(value, 5)
+            easing_sinus_in(tileUV.x),
+            easing_sinus_out(tileUV.x),
+            easing_sinus_inout(tileUV.x)
         );
 
-    if (row == 1 && column == 0)
+    else if (tileId.x < 2.0 && tileId.y < 2.0)
         result = vec3(
-            easing_sinus_in(value),
-            easing_sinus_out(value),
-            easing_sinus_inout(value)
+            easing_circular_in(tileUV.x),
+            easing_circular_out(tileUV.x),
+            easing_circular_inout(tileUV.x)
         );
 
-    if (row == 1 && column == 1)
+    else if (tileId.x < 1.0 && tileId.y < 3.0)
         result = vec3(
-            easing_circular_in(value),
-            easing_circular_out(value),
-            easing_circular_inout(value)
+            easing_smooth(tileUV.x, 1),
+            easing_smooth(tileUV.x, 3),
+            easing_smooth(tileUV.x, 5)
         );
 
-
-    return step(vec3(tile_uv.y), result);
+    gl_FragColor = vec4(step(vec3(tileUV.y), result), 1.0);
 }
