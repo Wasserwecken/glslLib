@@ -6,13 +6,14 @@
 
 void main()
 {
-    vec2 uv = uv_provide_stretch(gl_FragCoord.xy, iResolution.xy);
+    vec2 uv, uvRatio;
+    uv_provide(gl_FragCoord.xy, iResolution.xy, uv, uvRatio);
     
     vec2 tileUV, tileId;
     uv_tilling(uv, vec2(5.0, 5.0), tileUV, tileId); 
     
-    vec2 picUV = uv_provide_fill(gl_FragCoord.xy, iResolution.xy);
-    vec3 picColor = texture(iChannel0, picUV).xyz;
+    uv_fill(uv, uvRatio, uv);
+    vec3 picColor = texture(iChannel0, uv).xyz;
 
 
 

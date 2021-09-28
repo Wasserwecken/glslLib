@@ -6,41 +6,44 @@
 #define UV
 
 
-vec2 uv_provide_stretch(vec2 fragCoord, vec2 resolution)
+void uv_provide(in vec2 fragCoord, in vec2 resolution, out vec2 uvResult, out vec2 uvRatio)
 {
-    return (fragCoord / resolution);
+    uvResult = (fragCoord / resolution);
+    uvRatio = resolution / min(resolution.x, resolution.y);
 }
 
-vec2 uv_provide_fit(vec2 fragCoord, vec2 resolution)
+
+void uv_fit(in vec2 uv, in vec2 size, out vec2 uvResult)
 {
-    if (resolution.x > resolution.y)
+    uvResult = uv;
+
+    if (size.x > size.y)
     {
-        fragCoord.x += (resolution.y - resolution.x) * 0.5;
-        resolution.x = resolution.y;
+        uvResult.x *= size.x / size.y;
+        uvResult.x += (size.y - size.x) * 0.5;
     }
     else
     {
-        fragCoord.y += (resolution.x - resolution.y) * 0.5;
-        resolution.y = resolution.x;
+        uvResult.y *= size.y / size.x;
+        uvResult.y += (size.x - size.y) * 0.5;
     }
-
-    return (fragCoord / resolution);
 }
 
-vec2 uv_provide_fill(vec2 fragCoord, vec2 resolution)
+
+void uv_fill(in vec2 uv, in vec2 size, out vec2 uvResult)
 {
-    if (resolution.x > resolution.y)
+    uvResult = uv;
+
+    if (size.x < size.y)
     {
-        fragCoord.y += (resolution.x - resolution.y) * 0.5;
-        resolution.y = resolution.x;
+        uvResult.x += (size.y - size.x) * 0.5;
+        uvResult.x *= size.x / size.y;
     }
     else
     {
-        fragCoord.x += (resolution.y - resolution.x) * 0.5;
-        resolution.x = resolution.y;
+        uvResult.y += (size.x - size.y) * 0.5;
+        uvResult.y *= size.y / size.x;
     }
-
-    return (fragCoord / resolution);
 }
 
 void uv_rotate(inout vec2 uv, vec2 origin, float angle)
@@ -69,6 +72,11 @@ void uv_tilling(in vec2 uv, in vec2 tiles, out vec2 tile_uv, out vec2 tile_id)
 
     tile_id = floor(tile_uv);
     tile_uv = fract(tile_uv);
+}
+
+void uv_fit(in vec2 uvOuter, in float ratioOuter, in vec2 uvInner, in float ratioInner)
+{
+    
 }
 
 void uv_tilling_tile_offset(inout vec2 uv, out vec2 tile_id, float offset, float offset_step)

@@ -1,30 +1,40 @@
 #include "../lib/uv.glsl"
 #include "../lib/distanceFields.glsl"
 
-vec3 test_distanceFields(vec2 uv, float time)
+
+void main()
 {
-    vec2 tile_id;
-    vec2 tile_uv = uv_tilling(uv, tile_id, vec2(2.0, 2.0));
-    int row = int(tile_id.y);
-    int column = int(tile_id.x);
+    vec2 uv, uvRatio;
+    uv_provide(gl_FragCoord.xy, iResolution.xy, uv, uvRatio);
 
-    float result;
-    float size = 0.1;
-    vec4 edge_radius = vec4(0.05);
-    vec2 origin = vec2(0.5);
+    vec2 tileUV, tileId;
+    uv_tilling(uv, vec2(2.0, 2.0), tileUV, tileId);
+    uv_fill(tileUV, uvRatio, tileUV);
 
-        
-    if (row == 0 && column == 0)
-        result = df_circle(tile_uv, origin, size);
+    float shape;
+    vec2 origin = vec2(0.5); 
+    float size = 0.0;
 
-    if (row == 0 && column == 1)
-        result = df_box(tile_uv, origin, vec2(size));
+
+    if (tileId.x == 0.0 && tileId.y == 0.0)
+        shape = df_2D_circle(tileUV, origin, size);
+
+    else if (tileId.x == 0.0 && tileId.y == 1.0)
+        shape = df_2D_box(tileUV, origin, vec2(size));
     
-    if (row == 1 && column == 0)
-        result = df_box_rounded(tile_uv, origin, vec2(size), edge_radius);
+    else if (tileId.x == 1.0 && tileId.y == 0.0)
+        shape = df_2D_box_rounded(tileUV, origin, vec2(size), vec4(0.1));
     
-    if (row == 1 && column == 1)
-        result = df_ngon(tile_uv, origin, size, 5.0);
+    else if (tileId.x == 1.0 && tileId.y == 1.0)
+        shape = df_2D_ngon(tileUV, origin, size, 5.0);
 
-    return vec3(result) * 2.0;
+
+    vec3 result = mix(
+        vec3(0.2, 0.2, 0.2),
+        vec3(0.6, 0.3, 0.0),
+        step(shape, 0.2)
+    ) - sin(shape * 300.0) * 0.05;
+
+
+	gl_FragColor = vec4(vec3(result), 1.0);
 }

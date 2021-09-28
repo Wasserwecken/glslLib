@@ -3,7 +3,6 @@
 #include "noise.glsl"
 #include "noise.dimensions.glsl"
 
-
 #ifndef COLOR
 #define COLOR
 
