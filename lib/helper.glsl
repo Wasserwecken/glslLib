@@ -36,6 +36,12 @@ float value_posterize(float value, float steps)
     return floor(value * steps) / steps;
 }
 
+void ValueZigZag(in float value, in float size, out float result)
+{
+    result = mod(value - size * 0.5, size);
+    result = abs(result - size * 0.5);
+}
+
 vec3 converter_height_to_normal(float height, float strength)
 {
     float x = -dFdx(height);

@@ -9,6 +9,8 @@ const float PI025 = 0.78539816339;
 const float PI05 = 1.57079632674;
 const float PI = 3.14159265359;
 const float PI2 = 6.28318530718;
+const float GOLDANGLE = 2.399963229;
+const float GOLDRATIO = 1.6180339887;
 const float RADTODEG = 57.295779513;
 const float DEGTORAD = 0.01745329252;
 
