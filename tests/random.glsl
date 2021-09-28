@@ -1,44 +1,49 @@
 #include "../lib/uv.glsl"
 #include "../lib/random.glsl"
 
-vec3 test_random(vec2 uv, float time)
+void main()
 {
-    vec2 tile_id;
-    vec2 tile_uv = uv_tilling(uv, tile_id, vec2(3.0, 3.0));
-    int row = int(tile_id.y);
-    int column = int(tile_id.x);
+    vec2 uv, uvRatio;
+    uv_provide(gl_FragCoord.xy, iResolution.xy, uv, uvRatio);
 
-    vec3 point = vec3(tile_uv, time * 0.02);
+    vec2 tileUV, tileId;
+    uv_tilling(uv, vec2(3.0, 2.0), tileUV, tileId);
+    uv_fill(tileUV, uvRatio, tileUV);
+    
+
+    vec3 point = vec3(tileUV, 0.5);
     vec3 seed = vec3(floor(1.0 + iTime * 0.));
-    float minScale = 0.0001;
-    float maxScale = 1000.0;
-
-    if (row == 0 && column == 0)
-        return vec3(random(point.x * minScale));
-
-    if (row == 0 && column == 1)
-        return vec3(random(point.xy * minScale));
-
-    if (row == 0 && column == 2)
-        return vec3(random(point.xyz * minScale));
+    float scale = mix (0.0001, 1000.0, sin(iTime * 0.0001) * 0.5 + 0.5);
+    float result;
 
 
-    if (row == 1 && column == 0)
-        return vec3(random(point.x));
+    if (tileId.x < 1.0 && tileId.y < 1.0)
+    {
+        result = random(point.x);
+    }    
+    else if (tileId.x < 2.0 && tileId.y < 1.0)
+    {
+        result = random(point.xy);
+    }   
+    else if (tileId.x < 3.0 && tileId.y < 1.0)
+    {
+        result = random(point.xyz);
+    }    
+    
+    
+    else if (tileId.x < 1.0 && tileId.y < 2.0)
+    {
+        result = random(point.x * scale);
+    }    
+    else if (tileId.x < 2.0 && tileId.y < 2.0)
+    {
+        result = random(point.xy * scale);
+    }   
+    else if (tileId.x < 3.0 && tileId.y < 2.0)
+    {
+        result = random(point.xyz * scale);
+    }
 
-    if (row == 1 && column == 1)
-        return vec3(random(point.xy));
 
-    if (row == 1 && column == 2)
-        return vec3(random(point.xyz));
-
-
-    if (row == 2 && column == 0)
-        return vec3(random(point.x * maxScale));
-
-    if (row == 2 && column == 1)
-        return vec3(random(point.xy * maxScale));
-
-    if (row == 2 && column == 2)
-        return vec3(random(point.xyz * maxScale));
+	gl_FragColor = vec4(vec3(result), 1.0);
 }
