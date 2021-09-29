@@ -1,11 +1,12 @@
 #include "constants.glsl"
+#include "easing.glsl"
 
 
 #ifndef BLUR
 #define BLUR
 
 
-void GaussianBlur2Pass(in vec2 uv, in sampler2D source, in float stepSize, in float horizontal, in int kernelSize, float[11] weights, out vec3 result)
+void BlurGaussian2Pass(in vec2 uv, in sampler2D source, in float stepSize, in float horizontal, in int kernelSize, float[11] weights, out vec3 result)
 {
     vec2 texelSize = stepSize * (1.0 / vec2(textureSize(source, 0)));
     float weightSum = weights[0];

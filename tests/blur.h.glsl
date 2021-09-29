@@ -11,7 +11,8 @@ void main()
     uv_fill(uv, uvRatio, uv);
 
     vec3 result;
-    GaussianBlur2Pass(uv, iChannel0, 2.0, 1.0, 5, NORMALDIST4, result);
+    BlurGaussian2Pass(uv, iChannel0, 2.0, 1.0, 5, NORMALDIST2, result);
+
 
 	gl_FragColor = vec4(result, 1.0);
 }
