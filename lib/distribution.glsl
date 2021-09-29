@@ -37,10 +37,18 @@ void VogelHemispherePoint(in float index, in float count, in float phi, in float
     result = vec3(r * cos(theta), r * sin(theta), z);
 }
 
-void NormalDistribution(in float point, in float deviation, in float mean, out float result)
+void NormalDistribution(in float point, in float deviation, out float result)
 {
     float a = 1.0 / (deviation * sqrt(PI2));
-    float b = (point - mean) / deviation;
+    float b = point / deviation;
+
+    result = a * exp(-0.5 * b * b);
+}
+
+void NormalDistribution(in vec2 point, in float deviation, out float result)
+{
+    float a = 1.0 / (deviation * sqrt(PI2));
+    float b = (point.x * point.x + point.y * point.y) / deviation;
 
     result = a * exp(-0.5 * b * b);
 }

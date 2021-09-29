@@ -1,28 +1,30 @@
-
-const float weight[5] = float[] (0.227027, 0.1945946, 0.1216216, 0.054054, 0.016216);
-
+#include "constants.glsl"
 
 
-void main()
-{             
-    vec3 color = texture(BufferMap, _vertexScreenQuad.UV0).xyz;
-
-    vec2 texelSize = 1.0 / textureSize(BufferMap, 0);
-    vec3 result = color * weight[0];
+#ifndef BLUR
+#define BLUR
 
 
-    vec2 offset = vec2(0.0);
-    if (Horizontal > 0.5)
+void GaussianBlur2Pass(in vec2 uv, in sampler2D source, in float stepSize, in float horizontal, in int kernelSize, float[11] weights, out vec3 result)
+{
+    vec2 texelSize = stepSize * (1.0 / vec2(textureSize(source, 0)));
+    float weightSum = weights[0];
+    result = texture(source, uv).xyz * weights[0];
+
+    vec2 offset;
+    if (horizontal > 0.5)
         offset = vec2(texelSize.x, 0.0);
     else
         offset = vec2(0.0, texelSize.y);
 
-
-    for(int i = 1; i < 5; ++i)
+    for(int i = 1; i < kernelSize; ++i)
     {
-        result += texture(BufferMap, _vertexScreenQuad.UV0 + (offset * i)).rgb * weight[i];
-        result += texture(BufferMap, _vertexScreenQuad.UV0 - (offset * i)).rgb * weight[i];
+        weightSum += 2.0 * weights[i];
+        result += texture(source, uv + (offset * float(i))).xyz * weights[i];
+        result += texture(source, uv - (offset * float(i))).xyz * weights[i];
     }
 
-    OutputColor = vec4(result, 1.0);
-}  
+    result /= weightSum;
+}
+
+#endif
