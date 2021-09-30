@@ -10,40 +10,48 @@ void main()
     UVTile(uv, vec2(2.0, 3.0), tileUV, tileId);
 
     vec3 result;
-    if (tileId.x < 1.0 && tileId.y < 1.0)
-        result = vec3(
-            easing_expo_in(tileUV.x),
-            easing_expo_out(tileUV.x),
-            easing_expo_inout(tileUV.x)
-        );
-
-    else if (tileId.x < 2.0 && tileId.y < 1.0)
-        result = vec3(
-            easing_power_in(tileUV.x, 3.0),
-            easing_power_out(tileUV.x, 3.0),
-            easing_power_inout(tileUV.x, 3.0)
-        );
-
-    else if (tileId.x < 1.0 && tileId.y < 2.0)
-        result = vec3(
-            easing_sinus_in(tileUV.x),
-            easing_sinus_out(tileUV.x),
-            easing_sinus_inout(tileUV.x)
-        );
-
-    else if (tileId.x < 2.0 && tileId.y < 2.0)
-        result = vec3(
-            easing_circular_in(tileUV.x),
-            easing_circular_out(tileUV.x),
-            easing_circular_inout(tileUV.x)
-        );
-
-    else if (tileId.x < 1.0 && tileId.y < 3.0)
-        result = vec3(
-            easing_smooth(tileUV.x, 1),
-            easing_smooth(tileUV.x, 3),
-            easing_smooth(tileUV.x, 5)
-        );
+    if (tileId.y < 1.0)
+    {
+        if (tileId.x < 1.0)
+        {
+            EasingExpoIn(tileUV.x, result.x);
+            EasingExpoOut(tileUV.x, result.y);
+            EasingExpoInOut(tileUV.x, result.z);
+        }
+        else if (tileId.x < 2.0)
+        {
+            EasingPowerIn(tileUV.x, 3.0, result.x);
+            EasingPowerOut(tileUV.x, 3.0, result.y);
+            EasingPowerInOut(tileUV.x, 3.0, result.z);
+        }
+    }
+    else if (tileId.y < 2.0)
+    {
+        if (tileId.x < 1.0)
+        {
+            EasingSinusIn(tileUV.x, result.x);
+            EasingSinusOut(tileUV.x, result.y);
+            EasingSinusInOut(tileUV.x, result.z);
+        }
+        else if (tileId.x < 2.0)
+        {
+            EasingCircularIn(tileUV.x, result.x);
+            EasingCircularOut(tileUV.x, result.y);
+            EasingCircularInOut(tileUV.x, result.z);
+        }
+    }
+    else if (tileId.y < 3.0)
+    {
+        if (tileId.x < 1.0)
+        {
+            EasingSmooth(tileUV.x, 1, result.x);
+            EasingSmooth(tileUV.x, 3, result.y);
+            EasingSmooth(tileUV.x, 5, result.z);
+        }
+        else if (tileId.x < 2.0)
+        {
+        }
+    }
 
     gl_FragColor = vec4(step(vec3(tileUV.y), result), 1.0);
 }
