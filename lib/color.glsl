@@ -7,8 +7,13 @@
 #define COLOR
 
 
+void ColorGamma(in vec3 color, in float gamma, out vec3 result)
+{
+    result = pow(color, vec3(gamma));
+}
+
 //https://stackoverflow.com/questions/15095909/from-rgb-to-hsv-in-opengl-glsl
-vec3 color_hsv_to_rgb(vec3 hsv)
+vec3 ColorHsvToRgb(vec3 hsv)
 {
     vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
     vec3 p = abs(fract(hsv.xxx + K.xyz) * 6.0 - K.www);
@@ -17,7 +22,7 @@ vec3 color_hsv_to_rgb(vec3 hsv)
 
 
 //https://stackoverflow.com/questions/15095909/from-rgb-to-hsv-in-opengl-glsl
-vec3 color_rgb_to_hsv(vec3 rgb)
+vec3 ColorRgbToHsv(vec3 rgb)
 {
     vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
     vec4 p = mix(vec4(rgb.bg, K.wz), vec4(rgb.gb, K.xy), step(rgb.b, rgb.g));
@@ -30,7 +35,7 @@ vec3 color_rgb_to_hsv(vec3 rgb)
 
 
 //https://stackoverflow.com/questions/22895237/hexadecimal-to-rgb-values-in-webgl-shader
-vec3 color_hex_to_rgb(int hex_code)
+vec3 ColorHexToRgb(int hex_code)
 {
     return vec3(
         mod(float(hex_code / 256 / 256), 256.0),
@@ -40,7 +45,7 @@ vec3 color_hex_to_rgb(int hex_code)
 }
 
 
-vec3 color_256_to_rgb(int r, int g, int b)
+vec3 Color256ToRgb(int r, int g, int b)
 {
     return vec3(float(r), float(g), float(b)) / vec3(255.0);
 }

@@ -13,6 +13,8 @@ const float GOLDANGLE = 2.399963229;
 const float GOLDRATIO = 1.6180339887;
 const float RADTODEG = 57.295779513;
 const float DEGTORAD = 0.01745329252;
+const float GAMMAADD = 2.2;
+const float GAMMAREMOVE = 0.4545454545;
 
 const vec2 vec2_zero = vec2(0.0);
 const vec2 vec2_one = vec2(1.0);
