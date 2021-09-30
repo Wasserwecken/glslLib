@@ -4,6 +4,11 @@
 #define SPACE
 
 
+void LinearizeDepth(in float depth, in float zNear, in float zFar, out float result)
+{
+    result = zNear * zFar / (zFar + depth * (zNear - zFar));
+}
+
 void SpaceWorldToScreenSpace(in mat4 projection, in vec3 postionWS, out vec4 positionSS)
 {
     // to projection space

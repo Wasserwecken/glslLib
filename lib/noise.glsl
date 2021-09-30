@@ -60,7 +60,8 @@ float noise_value(float point, float seed, float smoothness)
     point *= NOISE_SCALE;
 
     float corner = floor(point);
-    float interpolation = easing_power_inout(fract(point), smoothness);
+    float interpolation;
+    EasingPowerInOut(fract(point), smoothness, interpolation);
 
     float A = random(corner + 0.0 + seed);
     float B = random(corner + 1.0 + seed);
@@ -74,7 +75,9 @@ float noise_value(vec2 point, vec2 seed, float smoothness)
     point *= NOISE_SCALE;
     
     vec2 corner = floor(point);
-    vec2 interpolation = easing_power_inout(fract(point), vec2(smoothness));
+    vec2 interpolation;
+    EasingPowerInOut(fract(point).x, smoothness, interpolation.x);
+    EasingPowerInOut(fract(point).y, smoothness, interpolation.y);
     
     float A = random(corner + vec2(0.0, 0.0) + seed);
     float B = random(corner + vec2(1.0, 0.0) + seed);
@@ -94,7 +97,10 @@ float noise_value(vec3 point, vec3 seed, float smoothness)
     point *= NOISE_SCALE;
     
     vec3 corner = floor(point);
-    vec3 interpolation = easing_power_inout(fract(point), vec3(smoothness));
+    vec3 interpolation;
+    EasingPowerInOut(fract(point).x, smoothness, interpolation.x);
+    EasingPowerInOut(fract(point).y, smoothness, interpolation.y);
+    EasingPowerInOut(fract(point).z, smoothness, interpolation.z);
     
     float A = random(corner + vec3(0.0, 0.0, 0.0) + seed);
     float B = random(corner + vec3(1.0, 0.0, 0.0) + seed);
@@ -135,7 +141,8 @@ float noise_perlin(float point, float seed)
     float B = random(corner + 1.0 + seed) * 2.0 - 1.0;
 
     point = fract(point);
-    float interpolation = easing_smooth(point, 2);
+    float interpolation;
+    EasingSmooth(point, 2, interpolation);
 
     float noise = mix(
         dot(A, point - 0.0),
@@ -158,7 +165,9 @@ float noise_perlin(vec2 point, vec2 seed)
     vec2 D = random_vec2(corner + vec2(1.0, 1.0) + seed) * 2.0 - 1.0;
 
     point = fract(point);
-    vec2 interpolation = easing_smooth(point, ivec2(2));
+    vec2 interpolation;
+    EasingSmooth(point.x, 2, interpolation.x);
+    EasingSmooth(point.y, 2, interpolation.y);
 
     float noise = mix(
             mix(
@@ -193,7 +202,10 @@ float noise_perlin(vec3 point, vec3 seed)
     vec3 H = random_vec3(corner + vec3(1.0, 1.0, 1.0) + seed) * 2.0 - 1.0;
 
     point = fract(point);
-    vec3 interpolation = easing_smooth(point, ivec3(2));
+    vec3 interpolation;
+    EasingSmooth(point.x, 2, interpolation.x);
+    EasingSmooth(point.y, 2, interpolation.y);
+    EasingSmooth(point.z, 2, interpolation.z);
 
     float noise = mix(
         mix(
@@ -503,7 +515,10 @@ float noise_voronoi_manhattan(vec2 point, vec2 seed)
         {
             neighbour = vec2(x, y);
             center = random_vec2(tile_id + seed + neighbour);
-            dist = min(dist, value_manhatten_length(center - tile_pos + neighbour));
+
+            float currentDist;
+            ManhattenLength(center - tile_pos + neighbour, currentDist);
+            dist = min(dist, currentDist);
         }
     }
 
