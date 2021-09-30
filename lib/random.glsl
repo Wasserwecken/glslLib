@@ -1,4 +1,4 @@
-
+#include "constants.glsl"
 
 #ifndef RANDOM
 #define RANDOM
@@ -86,17 +86,31 @@ vec3 random_vec3(vec3 p)
 
 vec2 random_in_circle(vec2 p)
 {
-    return random_vec2(p) * 2.0 - 1.0;
+    vec2 rand = random_vec2(p);
+    float r = sqrt(rand.x);
+    float theta = rand.y * PI2;
+
+    return r * vec2(cos(theta), sin(theta));
 }
 
 vec3 random_in_sphere(vec3 p)
 {
-    return random_vec3(p) * 2.0 - 1.0;
+    vec3 rand = random_vec3(p);
+
+    float theta = rand.x * PI2;
+    float v = rand.y;
+    float phi = acos((2.0 * v) - 1.0);
+    float r = pow(rand.z, 0.33333333333);
+    float x= r * sin(phi) * cos(theta);
+    float y= r * sin(phi) * sin(theta);
+    float z= r * cos(phi);
+
+    return vec3(x, y, z);
 }
 
 vec2 random_on_circle(vec2 p)
 {
-    return normalize(random_in_circle(p));
+    return normalize(random_vec2(p) * 2.0 - 1.0);
 }
 
 vec3 random_on_sphere(vec3 p)
