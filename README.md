@@ -9,12 +9,6 @@ The library also depends on itself. Many functions using functions that are defi
 
 All functions definitions are using only atomic types that are already provided by GLSL and no return value. This is done to avoid dependencies to structures that have to be copied then to, and no return value is used to have a uniform appearance and its almost ready to be imported to unity shader graph.
 
-## Function tests / validation
-There are for some of the functions tests to validate their result.
-These can be found the the directory `./tests/`. They can be executed with:
-- Visual studio code
-- Shadertoy Extension
-
 ## Where does the code come from?
 Most of the algorithms are obviously not from my hand. I encountered the most through tutorials and searching form them. In many cases the source is annotated as comment. But the main sources are:
 
@@ -24,3 +18,16 @@ Most of the algorithms are obviously not from my hand. I encountered the most th
 - https://iquilezles.org/
 - https://math.stackexchange.com/
 - https://stackoverflow.com/
+
+## Function tests / validation
+There are for some of the functions tests to validate their result.
+These can be found the the directory `./tests/`. They can be executed with:
+- Visual studio code
+- Shadertoy Extension
+
+Here are some tests:
+![Distance fields](/.doc/df.jpg)
+![Vogel points](/.doc/dist.jpg)
+![Noise](/.doc/noise.jpg)
+![Easing](/.doc/ease.jpg)
+![Random](/.doc/rand.jpg)
