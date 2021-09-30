@@ -17,16 +17,16 @@ void main()
 
 
     if (tileId.x == 0.0 && tileId.y == 0.0)
-        shape = DF2DCircle(tileUV, origin, size);
+        DF2DCircle(tileUV, origin, size, shape);
 
     else if (tileId.x == 0.0 && tileId.y == 1.0)
-        shape = DF2DBox(tileUV, origin, vec2(size));
+        DF2DBox(tileUV, origin, vec2(size), shape);
     
     else if (tileId.x == 1.0 && tileId.y == 0.0)
-        shape = DF2DBoxRound(tileUV, origin, vec2(size), vec4(0.1));
+        DF2DBoxRound(tileUV, origin, vec2(size), vec4(0.1), shape);
     
     else if (tileId.x == 1.0 && tileId.y == 1.0)
-        shape = DF2DNgon(tileUV, origin, size, 5.0);
+        DF2DNgon(tileUV, origin, size, 5.0, shape);
 
 
     vec3 result = mix(
