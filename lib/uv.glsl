@@ -1,5 +1,5 @@
 #include "constants.glsl"
-#include "gradients.glsl"
+#include "gradient.glsl"
 
 
 #ifndef UV
@@ -63,8 +63,9 @@ void UVRotate(in vec2 uv, in vec2 origin, in float angle, out vec2 resultUV)
 void UVPolar(in vec2 uv, in vec2 origin, out vec2 resultUV)
 {
     float len = length(uv - origin);
-    float angle = gradient_spiral(uv, origin, 0.0);
-
+    float angle;
+    
+    GradientSpiral(uv - origin, 0.0, angle);
     resultUV = vec2(angle, len);
 }
 
