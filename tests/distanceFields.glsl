@@ -17,16 +17,16 @@ void main()
 
 
     if (tileId.x == 0.0 && tileId.y == 0.0)
-        shape = df_2D_circle(tileUV, origin, size);
+        shape = DF2DCircle(tileUV, origin, size);
 
     else if (tileId.x == 0.0 && tileId.y == 1.0)
-        shape = df_2D_box(tileUV, origin, vec2(size));
+        shape = DF2DBox(tileUV, origin, vec2(size));
     
     else if (tileId.x == 1.0 && tileId.y == 0.0)
-        shape = df_2D_box_rounded(tileUV, origin, vec2(size), vec4(0.1));
+        shape = DF2DBoxRound(tileUV, origin, vec2(size), vec4(0.1));
     
     else if (tileId.x == 1.0 && tileId.y == 1.0)
-        shape = df_2D_ngon(tileUV, origin, size, 5.0);
+        shape = DF2DNgon(tileUV, origin, size, 5.0);
 
 
     vec3 result = mix(

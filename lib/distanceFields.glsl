@@ -5,14 +5,14 @@
 
 
 //https://www.iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm
-float df_2D_circle(vec2 point, vec2 origin, float radius)
+float DF2DCircle(vec2 point, vec2 origin, float radius)
 {
     return length(point - origin) -radius;
 }
 
 
 //https://www.iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm
-float df_2D_line(vec2 point, vec2 start, vec2 end)
+float DF2DLine(vec2 point, vec2 start, vec2 end)
 {
     float h = clamp(dot(start, end) / dot(end, end), 0.0, 1.0);
     return length(start - end * h);
@@ -20,7 +20,7 @@ float df_2D_line(vec2 point, vec2 start, vec2 end)
 
 
 //https://www.iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm
-float df_2D_box(vec2 point, vec2 origin, vec2 size)
+float DF2DBox(vec2 point, vec2 origin, vec2 size)
 {
     vec2 diff = abs(point - origin) - size;
     return max(diff.x, diff.y);
@@ -28,7 +28,7 @@ float df_2D_box(vec2 point, vec2 origin, vec2 size)
 
 
 //https://www.iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm
-float df_2D_box_rounded(vec2 point, vec2 origin, vec2 size, vec4 radius)
+float DF2DBoxRound(vec2 point, vec2 origin, vec2 size, vec4 radius)
 {
     point -= origin;
 
@@ -40,7 +40,7 @@ float df_2D_box_rounded(vec2 point, vec2 origin, vec2 size, vec4 radius)
 
 
 //https://www.iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm
-float df_2D_ngon(vec2 point, vec2 origin, float radius, float edges)
+float DF2DNgon(vec2 point, vec2 origin, float radius, float edges)
 {
     point -= origin;
 

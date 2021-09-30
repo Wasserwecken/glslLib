@@ -60,6 +60,11 @@ float ldot(vec2 a, vec2 b)
     return (1.0 - (acos(dot(a, b)) / PI)) * 2.0 - 1.0;
 }
 
+float HelperLinearizeDepth(float depth,float zNear,float zFar)
+{
+    return zNear * zFar / (zFar + depth * (zNear - zFar));
+}
+
 
 
 //------------------------------------------------------

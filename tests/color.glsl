@@ -16,10 +16,9 @@ void main()
     vec3 picColor = texture(iChannel0, uv).xyz;
 
 
-
-    vec3 result = vec3(0.0);
-    vec3 picHsv = color_rgb_to_hsv(picColor);
-    vec3 picRestored = color_hsv_to_rgb(picHsv);
+    vec3 picHsv, picRestored, result;
+    ColorRgbToHsv(picColor, picHsv);
+    ColorHsvToRgb(picHsv, picRestored);
 
 
     if (tileId.x < 1.0)
