@@ -7,7 +7,7 @@
 void main()
 {
     vec2 uv, uvRatio;
-    uv_provide(gl_FragCoord.xy, iResolution.xy, uv, uvRatio);
+    UVProvide(gl_FragCoord.xy, iResolution.xy, uv, uvRatio);
 
     vec3 result;
     BlurGaussian2Pass(uv, iChannel0, 2.0, 0.0, 5, NORMALDIST4, result);

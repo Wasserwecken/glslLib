@@ -4,10 +4,10 @@
 void main()
 {
     vec2 uv, uvRatio;
-    uv_provide(gl_FragCoord.xy, iResolution.xy, uv, uvRatio);
+    UVProvide(gl_FragCoord.xy, iResolution.xy, uv, uvRatio);
 
     vec2 tileUV, tileId;
-    uv_tile(uv, vec2(2.0, 3.0), tileUV, tileId);
+    UVTile(uv, vec2(2.0, 3.0), tileUV, tileId);
 
     vec3 result;
     if (tileId.x < 1.0 && tileId.y < 1.0)

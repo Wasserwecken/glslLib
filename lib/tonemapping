@@ -1,0 +1,8 @@
+#include "constants.glsl"
+
+#ifndef TONEMAPPING
+#define TONEMAPPING
+
+
+
+#endif
